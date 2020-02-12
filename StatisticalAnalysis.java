@@ -56,13 +56,15 @@ public class StatisticalAnalysis{
     }
     public static void displayGrades(ArrayList<Integer> array){
         for(int i=0; i < array.size(); i++){
-            System.out.print(array.get(i) + " ");
-            if(i % 10 == 0 && i != 0){
-                System.out.print("\n");
+           if(i % 10 == 0 && i > 0 ){
+               System.out.print("\n" + array.get(i) + " ");
+           }
+           else{
+               System.out.print(array.get(i) + " ");
+           }
             }
-        }
         System.out.println("\n");
-    }
+        } 
     public static ArrayList<Integer> sortList(ArrayList<Integer> array){
         for(int i = 0; i < array.size(); i++){
             int lowest = i;
