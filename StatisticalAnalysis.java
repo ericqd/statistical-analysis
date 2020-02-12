@@ -15,6 +15,7 @@ public class StatisticalAnalysis{
                 System.out.println(list);
                 
             case 2:
+                displayAverage(list);
 
 
         
