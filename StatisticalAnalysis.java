@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
+import java.text.DecimalFormat;
 public class StatisticalAnalysis{
     public static void main(String[] args){
         ArrayList<Integer> list = new ArrayList <Integer>();
+        populateGrades(list);
         boolean isTrue = false;
         while(isTrue == false){
             displayMenu();
@@ -12,12 +14,31 @@ public class StatisticalAnalysis{
 
             case 1:
                 sortList(list);
-                System.out.println(list);
-                
+                displayGrades(list);
+                break;
             case 2:
-
-
-        
+                double average = displayAverage(list);
+                DecimalFormat df = new DecimalFormat("0.0");
+                System.out.println("The average was: " + df.format(average));
+                break;
+            case 3:
+                int maximum = displayMax(list);
+                System.out.println("The maximum grade was: " + maximum);
+                break;
+            case 4:
+                int minimum = displayMin(list);
+                System.out.println("The minimum grade was: " + minimum);
+                break;
+            case 5:
+                double median = findMedian(list);
+                DecimalFormat df2 = new DecimalFormat("0.0");
+                System.out.println("The median was: " + df2.format(median));
+                break;
+            case 6:
+                isTrue = true;
+                System.out.println("Goodbye");
+                break;
+            }
         }
     }
     public static ArrayList<Integer> populateGrades(ArrayList<Integer> array) {
@@ -40,6 +61,7 @@ public class StatisticalAnalysis{
                 System.out.print("\n");
             }
         }
+        System.out.println("\n");
     }
     public static ArrayList<Integer> sortList(ArrayList<Integer> array){
         for(int i = 0; i < array.size(); i++){
@@ -75,11 +97,35 @@ public class StatisticalAnalysis{
         return median;
     }
     public static int displayMax(ArrayList<Integer> array){
-        int max = array.get(array.size() - 1);
+        ArrayList<Integer> maxList = (ArrayList<Integer>) array.clone();
+        for(int i = 0; i < maxList.size(); i++){
+            int lowest = i;
+            for(int j = i + 1; j< maxList.size(); j++){
+                if(maxList.get(j) < maxList.get(lowest)){
+                    lowest = j;
+                }
+            }
+            int swap = maxList.get(i);
+            maxList.set(i, maxList.get(lowest));
+            maxList.set(lowest,swap);
+        }
+        int max = maxList.get(maxList.size() - 1);
         return max;
     }
     public static int displayMin(ArrayList<Integer> array){
-        int min = array.get(0);
+        ArrayList<Integer> minList = (ArrayList<Integer>) array.clone();
+        for(int i = 0; i < minList.size(); i++){
+            int lowest = i;
+            for(int j = i + 1; j< minList.size(); j++){
+                if(minList.get(j) < minList.get(lowest)){
+                    lowest = j;
+                }
+            }
+            int swap = minList.get(i);
+            minList.set(i, minList.get(lowest));
+            minList.set(lowest,swap);
+        }
+        int min = minList.get(0);
         return min;
     }
     public static void displayMenu(){
