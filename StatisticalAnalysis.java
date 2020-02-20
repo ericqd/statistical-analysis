@@ -17,19 +17,23 @@ public class StatisticalAnalysis{
                 displayGrades(list);
                 break;
             case 2:
-                double average = displayAverage(list);
+                sortList(list);
+                double average = displayAverage(list)/ list.size();
                 DecimalFormat df = new DecimalFormat("0.0");
                 System.out.println("The average was: " + df.format(average));
                 break;
             case 3:
-                int maximum = displayMax(list);
+                sortList(list);
+                int maximum = list.get(list.size()-1);
                 System.out.println("The maximum grade was: " + maximum);
                 break;
             case 4:
-                int minimum = displayMin(list);
+                sortList(list);
+                int minimum = list.get(0);
                 System.out.println("The minimum grade was: " + minimum);
                 break;
             case 5:
+                sortList(list);
                 double median = findMedian(list);
                 DecimalFormat df2 = new DecimalFormat("0.0");
                 System.out.println("The median was: " + df2.format(median));
@@ -41,6 +45,11 @@ public class StatisticalAnalysis{
             }
         }
     }
+    /**
+     * Read a text file line by line and add the grade from that line and add it into the arraylist
+     * @param array
+     * @return arraylist
+     */
     public static ArrayList<Integer> populateGrades(ArrayList<Integer> array) {
         try{
             Scanner read = new Scanner(new File("grades.txt"));
@@ -54,6 +63,10 @@ public class StatisticalAnalysis{
         }
         return array;
     }
+    /**
+     * Print out values in the arraylist in rows of 10
+     * @param array
+     */
     public static void displayGrades(ArrayList<Integer> array){
         for(int i=0; i < array.size(); i++){
            if(i % 10 == 0 && i > 0 ){
@@ -62,9 +75,14 @@ public class StatisticalAnalysis{
            else{
                System.out.print(array.get(i) + " ");
            }
-            }
+        }
         System.out.println("\n");
-        } 
+    } 
+    /**
+     * Sorts arraylist using selection sort algorithm
+     * @param array
+     * @return array
+     */
     public static ArrayList<Integer> sortList(ArrayList<Integer> array){
         for(int i = 0; i < array.size(); i++){
             int lowest = i;
@@ -79,6 +97,11 @@ public class StatisticalAnalysis{
         }
         return array;
     }
+    /**
+     * Calculates the average of the arraylist and prints it out
+     * @param array
+     * @return sum/count
+     */
     public static double displayAverage(ArrayList<Integer> array){
         double sum = 0;
         double count = 0;
@@ -86,50 +109,26 @@ public class StatisticalAnalysis{
             sum += array.get(i);
             count++;
         }
-        return sum/count;
+        return sum;
     }
+    /**
+     * Finds the middle of the arraylist
+     * @param array
+     * @return median 
+     */
     public static double findMedian(ArrayList<Integer> array){
-        double median = array.size() / 2;
-        if(array.size() % 2 == 1){
-            median = (array.get(array.size()/2) + array.get(array.size()/2 - 1))/2;
+        double median = 0;
+        if(array.size() % 2 == 0){
+            median = (double)(array.get((array.size()/2) - 1) + (array.get(array.size()/2)))/2;
         }
         else{
-            median = array.get(array.size()/2);
+            median = array.get(array.size() /2);
         }
         return median;
     }
-    public static int displayMax(ArrayList<Integer> array){
-        ArrayList<Integer> maxList = (ArrayList<Integer>) array.clone();
-        for(int i = 0; i < maxList.size(); i++){
-            int lowest = i;
-            for(int j = i + 1; j< maxList.size(); j++){
-                if(maxList.get(j) < maxList.get(lowest)){
-                    lowest = j;
-                }
-            }
-            int swap = maxList.get(i);
-            maxList.set(i, maxList.get(lowest));
-            maxList.set(lowest,swap);
-        }
-        int max = maxList.get(maxList.size() - 1);
-        return max;
-    }
-    public static int displayMin(ArrayList<Integer> array){
-        ArrayList<Integer> minList = (ArrayList<Integer>) array.clone();
-        for(int i = 0; i < minList.size(); i++){
-            int lowest = i;
-            for(int j = i + 1; j< minList.size(); j++){
-                if(minList.get(j) < minList.get(lowest)){
-                    lowest = j;
-                }
-            }
-            int swap = minList.get(i);
-            minList.set(i, minList.get(lowest));
-            minList.set(lowest,swap);
-        }
-        int min = minList.get(0);
-        return min;
-    }
+    /**
+     * Creates a display menu for the user
+     */
     public static void displayMenu(){
         System.out.println("1. Display Sorted Grades");
         System.out.println("2. Display Average Grade");
